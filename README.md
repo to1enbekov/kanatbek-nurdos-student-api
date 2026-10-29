@@ -4,7 +4,7 @@
 **Course:** DevOps Midterm  
 **Project:** Spring Boot CRUD API + PostgreSQL + Docker + Jenkins
 
-Project status: Main branch confirms PostgreSQL CRUD implementation.
+Project status: CRUD API implemented; documentation branch merged after manual conflict resolution.
 
 ## Quick start (Ubuntu / WSL)
 
