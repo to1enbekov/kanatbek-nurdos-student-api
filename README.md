@@ -17,7 +17,8 @@ build uses Java 21 inside official JDK/JRE images.
 cp .env.example .env
 nano .env                         # change the POSTGRES_PASSWORD value
 chmod +x gradlew scripts/*.sh
-./gradlew --no-daemon test       # downloads official Gradle wrapper JAR on first run
+./scripts/setup_gradle_wrapper.sh # verify the committed official Gradle wrapper JAR
+./gradlew --no-daemon test
 docker compose up -d --build
 docker compose ps
 curl http://localhost:8080/api/info
@@ -80,3 +81,9 @@ history; this is optional and should not be done after sharing the repository.
 Database passwords live only in untracked `.env` and Compose environment variables.
 Never upload `.env`, real credentials, passwords or tokens to GitHub. The demo API
 has no authentication, so bind it to localhost and do not expose it publicly.
+
+## Verified wrapper and local Jenkins
+
+The standard Gradle 8.14 wrapper is committed. Its JAR SHA-256 and distribution checksum are verified against https://gradle.org/release-checksums/. The original custom download URL returned 404 and was replaced. New commits use the GitHub no-reply address for to1enbekov; original history is preserved.
+
+For an isolated local Jenkins use image `kanatbek-nurdos-midterm-jenkins:local`, container `kanatbek-nurdos-midterm-jenkins`, port `127.0.0.1:8081`, and a new dedicated home volume. The image includes Java 21, Git, Docker CLI/Buildx and Pipeline plugins. It does not replace the older Week 6 Jenkins.

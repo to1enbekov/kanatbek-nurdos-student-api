@@ -14,7 +14,7 @@ cp README.md backups/Kanatbek_Nurdos_README_backup.md
   echo '$ ls -l scripts'; ls -l scripts/Kanatbek_Nurdos_system_report.sh
   echo '$ tail -n 5'; tail -n 5 logs/Kanatbek_Nurdos_system_report.log
   echo '$ grep Kanatbek'; grep -n 'Kanatbek' logs/Kanatbek_Nurdos_system_report.log | tail -5
-  echo '$ ps -ef'; ps -ef | head -20
+  echo '$ ps -ef (first 20 lines)'; ps -ef | sed -n '1,20p'
   echo '$ Java processes (may be empty if none)'; ps -ef | grep '[j]ava' || true
   echo '$ backup'; ls -l backups/Kanatbek_Nurdos_README_backup.md
   echo '$ diff backup'; diff README.md backups/Kanatbek_Nurdos_README_backup.md && echo 'Backup is identical'

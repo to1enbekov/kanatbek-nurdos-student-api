@@ -3,28 +3,27 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 mkdir -p evidence
 BASE="${BASE_URL:-http://localhost:8080}"
-LOG=evidence/part3-crud-api.txt
-run() {
-  printf '\n$ curl %s\n' "$*"
-  curl -sS -i "$@"
-  printf '\n'
+exec > >(tee evidence/part3-crud-api.txt) 2>&1
+echo "CRUD HTTP assertions - Kanatbek Nurdos - $(date -Is)"
+BODY_FILE=$(mktemp)
+trap 'rm -f "$BODY_FILE"' EXIT
+request() {
+  local expected=$1 method=$2 path=$3
+  shift 3
+  local code
+  echo "$method $BASE$path (expected $expected)"
+  code=$(curl -sS -X "$method" -o "$BODY_FILE" -w '%{http_code}' "$BASE$path" "$@")
+  printf 'HTTP %s\n' "$code"
+  cat "$BODY_FILE"; echo
+  [ "$code" = "$expected" ] || { echo "FAIL: expected $expected got $code"; exit 1; }
 }
-{
-  echo "Part 3 CRUD API — Kanatbek Nurdos — $(date -Is)"
-  run "$BASE/api/info"
-  run -X POST "$BASE/api/students" -H 'Content-Type: application/json' -d '{"fullName":"Kanatbek Nurdos","email":"nurdos@example.com","course":"DevOps"}'
-  echo '$ GET all'; curl -sS "$BASE/api/students"; echo
-} | tee "$LOG"
-# Capture ID of the record just created, safely using Python JSON parsing.
-RESPONSE=$(curl -sS -X POST "$BASE/api/students" -H 'Content-Type: application/json' -d '{"fullName":"Kanatbek Nurdos","email":"nurdos2@example.com","course":"Docker"}')
-export RESPONSE
-ID=$(python3 -c 'import os,json; print(json.loads(os.environ["RESPONSE"])["id"])')
-{
-  echo "Using created record ID: $ID"
-  run "$BASE/api/students/$ID"
-  run -X PUT "$BASE/api/students/$ID" -H 'Content-Type: application/json' -d '{"fullName":"Kanatbek Nurdos","email":"nurdos2@example.com","course":"Jenkins CI/CD"}'
-  run -X DELETE "$BASE/api/students/$ID"
-  run "$BASE/api/students/$ID"
-  run "$BASE/api/students/99999999"
-} | tee -a "$LOG"
-echo "Saved $LOG"
+request 200 GET /api/info
+request 201 POST /api/students -H 'Content-Type: application/json' -d '{"fullName":"Kanatbek Nurdos","email":"nurdos@example.com","course":"DevOps"}'
+ID=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["id"])' "$BODY_FILE")
+request 200 GET /api/students
+request 200 GET "/api/students/$ID"
+request 200 PUT "/api/students/$ID" -H 'Content-Type: application/json' -d '{"fullName":"Kanatbek Nurdos","email":"nurdos@example.com","course":"Jenkins CI/CD"}'
+python3 -c 'import json,sys; assert json.load(open(sys.argv[1]))["course"] == "Jenkins CI/CD"' "$BODY_FILE"
+request 204 DELETE "/api/students/$ID"
+request 404 GET "/api/students/$ID"
+echo 'PASS: all six CRUD scenarios returned the expected HTTP status.'
