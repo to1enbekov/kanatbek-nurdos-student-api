@@ -6,7 +6,8 @@ for path in Dockerfile docker-compose.yml Jenkinsfile build.gradle settings.grad
   scripts/Kanatbek_Nurdos_system_report.sh logs/Kanatbek_Nurdos_system_report.log \
   logs/Kanatbek_Nurdos_log_analysis.txt backups/Kanatbek_Nurdos_README_backup.md \
   evidence/part1-linux.txt evidence/part2-git.txt evidence/part3-docker.txt \
-  evidence/part3-crud-api.txt evidence/part3-persistence.txt; do
+  evidence/part3-crud-api.txt evidence/part3-persistence.txt \
+      evidence/part3-rebuild-version.txt; do
     if [ -e "$path" ]; then echo "OK      $path"; else echo "MISSING $path"; fi
 done
 if [ -s gradle/wrapper/gradle-wrapper.jar ]; then echo 'OK Gradle wrapper JAR'; else echo 'PENDING Gradle wrapper JAR (download occurs during first ./gradlew)'; fi

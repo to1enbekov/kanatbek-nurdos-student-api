@@ -13,7 +13,7 @@ RUN ./gradlew --no-daemon clean bootJar
 FROM eclipse-temurin:21-jre-jammy AS runtime
 WORKDIR /app
 RUN useradd --system --create-home --uid 10001 appuser
-COPY --from=build /workspace/build/libs/*.jar app.jar
+COPY --from=build /workspace/build/libs/app.jar app.jar
 USER appuser
 EXPOSE 8080
 ENV SERVER_PORT=8080

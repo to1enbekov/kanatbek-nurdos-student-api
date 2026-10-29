@@ -49,7 +49,8 @@ Jenkinsfile, локальная Git-история с настоящим merge c
    Команда: `cd ~/devops/kanatbek-nurdos-student-api`.
 2. Проверь `git log --oneline --all --graph --decorate` и `git branch -a`.
    ZIP содержит реальную `.git`, не делай `git init` повторно.
-3. `chmod +x gradlew scripts/*.sh`.
+3. `chmod +x gradlew scripts/*.sh`; затем `./scripts/project_structure_demo.sh`
+       для подтверждения создания папок командами терминала.
 4. `sudo apt update && sudo apt install -y curl git python3` (по необходимости).
 5. Сначала `./gradlew test` (нужна Java 21 и доступ к Gradle/Maven).
 6. `cp .env.example .env` и замени пароль в `.env`.
@@ -57,8 +58,12 @@ Jenkinsfile, локальная Git-история с настоящим merge c
 8. `curl http://localhost:8080/api/info`, `./scripts/api_demo.sh`.
 9. `./scripts/persistence_demo.sh` (доказывает хранение данных после stop/start).
 10. `./scripts/collect_evidence.sh` и `./scripts/docker_evidence.sh`.
-11. `./scripts/check_submission.sh` — посмотреть, какие доказательства отсутствуют.
-12. На GitHub создать пустой репозиторий `kanatbek-nurdos-student-api`
+11. Для требования «пересобрать образ после изменения версии» выполни
+        `./scripts/rebuild_version_demo.sh prepare`, затем
+        `./scripts/rebuild_version_demo.sh build`, затем `git switch main`.
+        Будет создан `evidence/part3-rebuild-version.txt`.
+    12. `./scripts/check_submission.sh` — посмотреть, какие доказательства отсутствуют.
+13. На GitHub создать пустой репозиторий `kanatbek-nurdos-student-api`
     (без автоматического README); затем вставить свой URL в команды:
 
 ```bash
@@ -72,11 +77,11 @@ git remote -v
 git log --all --oneline --graph --decorate
 ```
 
-13. Следуй `JENKINS_SETUP_RU.md`: создать job, запустить pipeline,
+14. Следуй `JENKINS_SETUP_RU.md`: создать job, запустить pipeline,
     сохранить SUCCESS, затем FAILED → FIXED → SUCCESS на личной test-ветке.
-14. Сделай дополнительный commit на main, push и покажи автоматический
+15. Сделай дополнительный commit на main, push и покажи автоматический
     старт Jenkins через pollSCM.
-15. Для защиты открой файлы evidence/*.txt и веб-интерфейс Jenkins/GitHub.
+16. Для защиты открой файлы evidence/*.txt и веб-интерфейс Jenkins/GitHub.
 
 ## Что приложить / показать преподавателю (рекомендация)
 

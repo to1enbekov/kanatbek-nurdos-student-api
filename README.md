@@ -50,7 +50,7 @@ Example student (test identity; not a real contact email):
 
 ## Project parts
 
-- **Part 1 Linux:** `scripts/Kanatbek_Nurdos_system_report.sh` and `scripts/collect_evidence.sh`.
+- **Part 1 Linux:** `scripts/Kanatbek_Nurdos_system_report.sh` and `scripts/project_structure_demo.sh`, `scripts/collect_evidence.sh`.
   Permissions `744` mean owner `rwx`, group `r--`, others `r--`.
 - **Part 2 Git:** `main`, two personal feature branches, multiple actual commits,
   a genuinely resolved README merge conflict, annotated tag.
