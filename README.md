@@ -4,7 +4,7 @@
 **Course:** DevOps Midterm  
 **Project:** Spring Boot CRUD API + PostgreSQL + Docker + Jenkins
 
-Project status: Initial project scaffold.
+Project status: Documentation branch explains completed CRUD endpoints.
 
 ## Quick start (Ubuntu / WSL)
 
