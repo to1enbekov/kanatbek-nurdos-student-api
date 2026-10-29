@@ -4,6 +4,14 @@
 **Course:** DevOps Midterm  
 **Project:** Spring Boot CRUD API + PostgreSQL + Docker + Jenkins
 
+**CRUD feature - Kanatbek Nurdos.** This feature implements student create,
+list, lookup, update and delete through StudentController and StudentService.
+In particular, PUT updates fullName, email and course for an existing ID;
+a missing student returns HTTP 404, and invalid input returns HTTP 400.
+StudentServiceTest and StudentControllerTest cover the CRUD service and
+controller responses. This README note was added during the final requirements
+audit to complete the feature-branch documentation required by Task 2.2.
+
 Project status: CRUD API implemented; documentation branch merged after manual conflict resolution.
 
 ## How to run (Ubuntu / WSL)
