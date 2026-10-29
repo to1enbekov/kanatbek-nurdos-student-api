@@ -6,17 +6,77 @@
 
 Project status: CRUD API implemented; documentation branch merged after manual conflict resolution.
 
-## Quick start (Ubuntu / WSL)
+## How to run (Ubuntu / WSL)
+
+Prerequisites: Ubuntu/WSL, Docker Engine or Docker Desktop integrated with WSL,
+Docker Compose v2, `curl`, `python3`, and network access to Gradle/Maven Central.
+Java 21 is required for local Gradle tests and Jenkins builds. Docker-only
+build uses Java 21 inside official JDK/JRE images.
 
 ```bash
 cp .env.example .env
-nano .env     # replace POSTGRES_PASSWORD with a strong value
+nano .env                         # change the POSTGRES_PASSWORD value
 chmod +x gradlew scripts/*.sh
-./gradlew test
+./gradlew --no-daemon test       # downloads official Gradle wrapper JAR on first run
 docker compose up -d --build
 docker compose ps
 curl http://localhost:8080/api/info
+./scripts/api_demo.sh
+./scripts/collect_evidence.sh
+./scripts/docker_evidence.sh
+./scripts/persistence_demo.sh
 ```
 
-Documentation: [SUBMISSION_GUIDE_RU.md](SUBMISSION_GUIDE_RU.md).  
-API tests: `./scripts/api_demo.sh`.
+**Never run `docker compose down -v` during the persistence demo**: it removes the database volume.
+Stop cleanly with `docker compose down` (without `-v`).
+
+## API endpoints
+
+| Method | Path | Description | Expected status |
+|---|---|---|---|
+| GET | `/api/info` | Student and project identity | 200 |
+| POST | `/api/students` | Create student | 201 |
+| GET | `/api/students` | List all students | 200 |
+| GET | `/api/students/{id}` | Get one by ID | 200 or 404 |
+| PUT | `/api/students/{id}` | Edit student | 200 or 404 |
+| DELETE | `/api/students/{id}` | Delete student | 204 or 404 |
+| GET | `/actuator/health` | Application health | 200 when healthy |
+
+Example student (test identity; not a real contact email):
+
+```json
+{"fullName":"Kanatbek Nurdos","email":"nurdos@example.com","course":"DevOps"}
+```
+
+## Project parts
+
+- **Part 1 Linux:** `scripts/Kanatbek_Nurdos_system_report.sh` and `scripts/collect_evidence.sh`.
+  Permissions `744` mean owner `rwx`, group `r--`, others `r--`.
+- **Part 2 Git:** `main`, two personal feature branches, multiple actual commits,
+  a genuinely resolved README merge conflict, annotated tag.
+- **Part 3 Docker:** multi-stage Dockerfile, Compose with PostgreSQL, named volume,
+  health check and isolated network; CRUD demo + persistence demo scripts.
+- **Part 4 Jenkins:** declarative pipeline with Checkout, Build, Test, Docker Build, Verify,
+  scheduled SCM polling. `infra/jenkins/Dockerfile` helps create a Docker-capable agent.
+
+## Other documentation
+
+- `SUBMISSION_GUIDE_RU.md` — what the original task demands, exact evidence, steps to submit.
+- `DEFENSE_RU.md` — Russian defense text and likely questions.
+- `JENKINS_SETUP_RU.md` — Jenkins configuration and fail/fix demo.
+- `docs/REAL_MERGE_CONFLICT.txt` — output of a genuine local Git merge conflict.
+
+## Git author note
+
+Since your verified GitHub email is unavailable here, the prepared local Git
+history uses `student-midterm@users.noreply.github.com` as a **placeholder author email**.
+Before new commits, run `git config user.email "YOUR_GITHUB_EMAIL"` locally.
+The existing commits are still authored under the requested `Kanatbek Nurdos` name.
+To associate older commits with your GitHub account you would need to rewrite
+history; this is optional and should not be done after sharing the repository.
+
+## Security
+
+Database passwords live only in untracked `.env` and Compose environment variables.
+Never upload `.env`, real credentials, passwords or tokens to GitHub. The demo API
+has no authentication, so bind it to localhost and do not expose it publicly.

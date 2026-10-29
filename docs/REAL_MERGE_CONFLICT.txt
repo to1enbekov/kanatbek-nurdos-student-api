@@ -1,0 +1,8 @@
+Actual local Git merge output during project creation:
+
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+Automatic merge failed; fix conflicts and then commit the result.
+
+
+Resolved by manually editing README.md and committing the merge.
