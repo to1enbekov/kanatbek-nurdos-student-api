@@ -52,7 +52,13 @@ Jenkinsfile, локальная Git-история с настоящим merge c
 3. `chmod +x gradlew scripts/*.sh`; затем `./scripts/project_structure_demo.sh`
        для подтверждения создания папок командами терминала.
 4. `sudo apt update && sudo apt install -y curl git python3` (по необходимости).
-5. Сначала `./gradlew test` (нужна Java 21 и доступ к Gradle/Maven).
+5. Если нет Java 21 — `sudo apt install -y openjdk-21-jdk`.
+       Запусти `java -version`, затем `./gradlew test` (доступ к Gradle/Maven нужен).
+       При первом запуске Gradle Wrapper скачает проверенный официальный
+       `gradle-wrapper.jar`. **После успешной загрузки добавь этот JAR в Git:**
+       `git add gradle/wrapper/gradle-wrapper.jar && git commit -m
+       "build(Kanatbek Nurdos): add verified Gradle wrapper"`.
+       Он должен храниться в репозитории, чтобы Jenkins не скачивал JAR отдельно.
 6. `cp .env.example .env` и замени пароль в `.env`.
 7. `docker compose up -d --build`, затем `docker compose ps`.
 8. `curl http://localhost:8080/api/info`, `./scripts/api_demo.sh`.
