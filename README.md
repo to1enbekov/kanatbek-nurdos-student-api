@@ -13,7 +13,7 @@ controller responses. This README note was added during the final requirements
 audit to complete the feature-branch documentation required by Task 2.2.
 
 
-Project status: Initial project scaffold.
+Project status: Student CRUD feature implemented and tested by Kanatbek Nurdos.
 
 ## Quick start (Ubuntu / WSL)
 
