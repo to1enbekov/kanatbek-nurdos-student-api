@@ -22,7 +22,7 @@ public class StudentController {
 
     @GetMapping("/info")
     public Map<String, String> info() {
-        return Map.of("student", "Kanatbek Nurdos", "application", "Student CRUD API", "version", "1.0.0");
+        return Map.of("student", "Kanatbek Nurdos", "application", "Student CRUD API", "version", "1.0.1");
     }
 
     @GetMapping("/students")
