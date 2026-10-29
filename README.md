@@ -69,12 +69,9 @@ Example student (test identity; not a real contact email):
 
 ## Git author note
 
-Since your verified GitHub email is unavailable here, the prepared local Git
-history uses `student-midterm@users.noreply.github.com` as a **placeholder author email**.
-Before new commits, run `git config user.email "YOUR_GITHUB_EMAIL"` locally.
-The existing commits are still authored under the requested `Kanatbek Nurdos` name.
-To associate older commits with your GitHub account you would need to rewrite
-history; this is optional and should not be done after sharing the repository.
+New commits use `159691545+to1enbekov@users.noreply.github.com`, associated with
+the verified GitHub account `to1enbekov`. Original prepared commits retain their
+placeholder author address. Their history was preserved without rewriting.
 
 ## Security
 

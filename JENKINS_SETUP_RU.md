@@ -12,15 +12,15 @@ Jenkins уже установлен? Можно оставить существ�
 не использовать это в публичной/недоверенной среде):
 
 ```bash
-docker build -f infra/jenkins/Dockerfile -t kanatbek-nurdos-jenkins:local .
-docker volume create kanatbek-nurdos-jenkins-home
-docker run -d --name kanatbek-nurdos-jenkins \
-  -p 127.0.0.1:8081:8080 -p 127.0.0.1:50000:50000 \
-  -v kanatbek-nurdos-jenkins-home:/var/jenkins_home \
+docker build -f infra/jenkins/Dockerfile -t kanatbek-nurdos-midterm-jenkins:local .
+docker volume create kanatbek-nurdos-midterm-jenkins-home
+docker run -d --name kanatbek-nurdos-midterm-jenkins \
+  -p 127.0.0.1:8081:8080 \
+  -v kanatbek-nurdos-midterm-jenkins-home:/var/jenkins_home \
   -v /var/run/docker.sock:/var/run/docker.sock \
   --group-add "$(stat -c %g /var/run/docker.sock)" \
-  kanatbek-nurdos-jenkins:local
-docker exec kanatbek-nurdos-jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+  kanatbek-nurdos-midterm-jenkins:local
+docker exec kanatbek-nurdos-midterm-jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 
 Открой `http://localhost:8081`. Настрой пользователя и установи
@@ -88,3 +88,7 @@ Continuous Delivery = приложение подготовлено к разв�
 может требовать ручного подтверждения. Continuous Deployment = прошедшее
 проверки изменение автоматически идёт в production. Для этого задания
 автоматический deployment не обязателен.
+
+## Проверенная локальная установка
+
+Учебный Jenkins Midterm доступен только на http://localhost:8081, с отдельным home volume и обязательной авторизацией. Docker socket доступен только доверенной учебной установке. Java 21, Docker CLI/Buildx, Git и Pipeline plugins включены в образ. Старый Week 6 Jenkins и его jobs не менялись. Основная job читает публичный GitHub main; секреты SCM не нужны.
