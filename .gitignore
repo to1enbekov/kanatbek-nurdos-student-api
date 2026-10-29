@@ -1,0 +1,17 @@
+.gradle/
+build/
+out/
+.idea/
+.vscode/
+*.iml
+.env
+.env.*
+!.env.example
+logs/*.log
+logs/*_analysis.txt
+!logs/.gitkeep
+backups/*
+!backups/.gitkeep
+evidence/*
+!evidence/.gitkeep
+.DS_Store
